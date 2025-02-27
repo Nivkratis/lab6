@@ -4,15 +4,11 @@ function SealedClass(constructor: Function) {
     Object.seal(constructor.prototype);
 }
 
-function ToUpperCase(target: any, propertyKey: string, descriptor: PropertyDescriptor): void {
-    const originalMethod = descriptor.value;
-    descriptor.value = function (...args: any[]) {
-        const result = originalMethod.apply(this, args);
-        if (typeof result === 'string') {
-            return result.toUpperCase(); 
-        }
-        return result; 
-    };
+function ToUpperCase(method: Function) {
+    return function (this: any, ...args: any[]) {
+        const result = method.apply(this, args);
+        return result.toUpperCase();
+    }
 }
 
 
@@ -224,9 +220,8 @@ const car = new Car(
 
 
 
-//Object.defineProperty(Car, "Color", {
+//Object.defineProperty(Car, "Color", { Выдаст ошибку
 //value: "Black"
 //});
 
-// Проверка метода с декоратором
-console.log(car.getCarInfo()); // Все буквы в верхнем регистре
+console.log(car.getCarInfo()); 

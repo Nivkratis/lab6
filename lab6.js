@@ -32,25 +32,18 @@ var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, 
     if (target) Object.defineProperty(target, contextIn.name, descriptor);
     done = true;
 };
-// Декоратор для блокировки изменений в классе
 function SealedClass(constructor) {
     Object.seal(constructor);
     Object.seal(constructor.prototype);
 }
-function ToUpperCase(target, propertyKey, descriptor) {
-    // Сохраняем оригинальную функцию
-    var originalMethod = descriptor.value;
-    // Изменяем дескриптор, чтобы новый метод выполнял преобразование
-    descriptor.value = function () {
+function ToUpperCase(method) {
+    return function () {
         var args = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
-        var result = originalMethod.apply(this, args);
-        if (typeof result === 'string') {
-            return result.toUpperCase(); // Преобразуем строку в заглавные буквы
-        }
-        return result; // Возвращаем результат без изменений, если это не строка
+        var result = method.apply(this, args);
+        return result.toUpperCase();
     };
 }
 var DocumentTypes;

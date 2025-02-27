@@ -1,20 +1,18 @@
-// Декоратор для блокировки изменений в классе
+
 function SealedClass(constructor: Function) {
     Object.seal(constructor);
     Object.seal(constructor.prototype);
 }
 
 function ToUpperCase(target: any, propertyKey: string, descriptor: PropertyDescriptor): void {
-    // Сохраняем оригинальную функцию
     const originalMethod = descriptor.value;
 
-    // Изменяем дескриптор, чтобы новый метод выполнял преобразование
     descriptor.value = function (...args: any[]) {
         const result = originalMethod.apply(this, args);
         if (typeof result === 'string') {
-            return result.toUpperCase(); // Преобразуем строку в заглавные буквы
+            return result.toUpperCase(); 
         }
-        return result; // Возвращаем результат без изменений, если это не строка
+        return result; 
     };
 }
 

@@ -6,7 +6,6 @@ function SealedClass(constructor: Function) {
 
 function ToUpperCase(target: any, propertyKey: string, descriptor: PropertyDescriptor): void {
     const originalMethod = descriptor.value;
-
     descriptor.value = function (...args: any[]) {
         const result = originalMethod.apply(this, args);
         if (typeof result === 'string') {
